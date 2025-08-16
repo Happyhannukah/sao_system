@@ -13,7 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['*']  # You can replace '*' with your Render domain
+ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 INSTALLED_APPS = [

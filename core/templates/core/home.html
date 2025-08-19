@@ -3,82 +3,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SAO System Interface</title>
+    <title>SAO Anniversary Interface</title>
     <style>
+        /* ---------------- Body & Background ---------------- */
         body {
-            background-color: #0b0d10;
-            color: #00ffcc;
             font-family: "Consolas", monospace;
+            color: #ffb6c1; 
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 40px;
+            background: radial-gradient(circle at top left, #0b0d10, #1a0f2a, #300f1e);
+            overflow: hidden;
         }
 
-        /* Panel styling */
+        /* ---------------- Starry Background ---------------- */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffb6c1;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ---------------- Panel Styling ---------------- */
         .panel {
-            border: 1px solid #00ffcc;
+            border: 1px solid #ff69b4;
             width: 600px;
             text-align: center;
             padding: 30px;
             margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.8), 0 0 40px rgba(0, 255, 204, 0.4);
-            background-color: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
         }
 
-        /* Typing animation */
+        /* ---------------- Typing Animation ---------------- */
         .typing {
-            width: 22ch;
-            animation: typing 3s steps(22), blink .6s step-end infinite alternate;
+            width: 28ch;
+            animation: typing 4s steps(28), blink .6s step-end infinite alternate;
             white-space: nowrap;
             overflow: hidden;
-            border-right: 2px solid #00ffcc;
+            border-right: 2px solid #ff69b4;
             margin: 0 auto 20px;
         }
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 22ch }
-        }
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: #00ffcc; }
-        }
+        @keyframes typing { from { width: 0 } to { width: 28ch } }
+        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #ff69b4; } }
 
-        /* Loading bar */
+        /* ---------------- Loading Bar ---------------- */
         .loading-bar-container {
             width: 80%;
             height: 8px;
-            border: 1px solid #00ffcc;
+            border: 1px solid #ff69b4;
             margin: 10px auto;
         }
         .loading-bar {
             height: 100%;
-            background-color: #00ffcc;
+            background-color: #ff69b4;
             animation: load 4s infinite;
             width: 0%;
         }
-        @keyframes load {
-            0%   { width: 0%; }
-            60%  { width: 100%; }
-            100% { width: 0%; }
-        }
+        @keyframes load { 0% { width: 0%; } 60% { width: 100%; } 100% { width: 0%; } }
 
-        /* 3D rotating globe */
+        /* ---------------- Globe ---------------- */
         .globe-container {
             perspective: 1200px;
             width: 800px;
             height: 500px;
             position: relative;
             margin: 50px auto;
+            overflow: visible;
         }
-
         .globe {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            animation: spin 120s linear infinite; /* slower rotation */
+            animation: spin 120s linear infinite;
         }
+        @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
         .globe-item {
             position: absolute;
@@ -86,39 +98,62 @@
             left: 50%;
             transform-origin: center center -300px;
             margin: -60px 0 0 -60px;
-            border: 1px solid #00ffcc;
-            box-shadow: 0 0 15px #00ffcc;
-            border-radius: 8px;
+            border: 1px solid #ff69b4;
+            box-shadow: 0 0 25px #ff69b4;
+            border-radius: 10px;
             width: 120px;
             height: 120px;
             object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .globe-item video {
-            border-radius: 8px;
+        .globe-item:hover {
+            transform: scale(1.2) translateZ(300px);
+            box-shadow: 0 0 50px #ff69b4;
         }
+        .globe-item video { border-radius: 10px; }
 
-        @keyframes spin {
-            from { transform: rotateY(0deg); }
-            to   { transform: rotateY(360deg); }
-        }
-
+        /* ---------------- Input & Button ---------------- */
         input, button {
-            padding: 5px;
+            padding: 8px;
             margin: 5px;
-            border: 1px solid #00ffcc;
+            border: 1px solid #ff69b4;
             background-color: #0b0d10;
-            color: #00ffcc;
+            color: #ffb6c1;
             border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 10px #ff69b4;
         }
         button:hover {
             cursor: pointer;
-            background-color: #00ffcc;
+            background-color: #ff69b4;
             color: #0b0d10;
+            box-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4;
+            animation: glowPulse 1.5s infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4; }
+            100% { box-shadow: 0 0 35px #ff69b4, 0 0 70px #ff69b4; }
         }
 
-        #login-error {
-            margin-top: 10px;
+        #login-error { margin-top: 10px; color: #ff4c6a; display:none; }
+
+        /* ---------------- Floating Hearts ---------------- */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            clip-path: polygon(50% 0%, 61% 9%, 68% 18%, 75% 28%, 75% 37%, 50% 75%, 25% 37%, 25% 28%, 32% 18%, 39% 9%);
+            animation: floatHeart linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); }
+            100% { transform: translateY(-500px) rotate(360deg) scale(1); opacity: 0; }
         }
     </style>
 </head>
@@ -129,22 +164,21 @@
         <h2>Labblabb Access Login</h2>
         <input type="password" id="password" placeholder="Enter passcode"/>
         <button onclick="checkPassword()">Login</button>
-        <p id="login-error" style="color:red; display:none;">Wrong passcode!</p>
+        <p id="login-error">Wrong passcode!</p>
     </div>
 
     <!-- INITIALIZING PANEL -->
     <div id="init-panel" class="panel" style="display:none;">
-        <div class="typing">Initializing system...</div>
+        <div class="typing">Initializing system... Happy Anniversary! 💖</div>
         <div class="loading-bar-container"><div class="loading-bar"></div></div>
         <h2>Access Granted</h2>
-        <p>Welcome to the SAO Interface</p>
+        <p>Welcome to our Anniversary Celebration 🎉</p>
     </div>
 
     <!-- 3D ROTATING GLOBE -->
     <div id="globe-container" class="globe-container" style="display:none;">
         <audio id="bg-music" loop>
             <source src="{% static 'core/sao/Way Back Into Love.mp3' %}" type="audio/mpeg">
-            Your browser does not support the audio element.
         </audio>
 
         <div class="globe">
@@ -168,7 +202,7 @@
         Mute/Unmute Music
     </button>
 
-    <!-- LOGIN & SEQUENCE SCRIPT -->
+    <!-- ---------------- Scripts ---------------- -->
     <script>
         const correctPassword = "092621"; // set your password
 
@@ -179,22 +213,19 @@
                 document.getElementById("login-panel").style.display = "none";
                 document.getElementById("init-panel").style.display = "block";
 
-                // after 4 seconds, hide init and show globe
                 setTimeout(() => {
                     document.getElementById("init-panel").style.display = "none";
                     const globe = document.getElementById("globe-container");
                     globe.style.display = "block";
 
-                    // delay music by 3 seconds
+                    spawnHearts(30); // spawn hearts
+
                     setTimeout(() => {
                         const music = document.getElementById("bg-music");
-                        music.volume = 0.3; // 30% volume
-                        music.play().catch(() => {
-                            console.log("User interaction required to play music");
-                        });
-                    }, 3000);
-
-                }, 100);
+                        music.volume = 0.3;
+                        music.play().catch(() => { console.log("User interaction required"); });
+                    }, 1000);
+                }, 4000);
             } else {
                 error.style.display = "block";
             }
@@ -204,7 +235,18 @@
             const music = document.getElementById("bg-music");
             music.paused ? music.play() : music.pause();
         }
-    </script>
 
+        // Floating Hearts
+        function spawnHearts(count){
+            for(let i=0; i<count; i++){
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.animationDuration = 4 + Math.random() * 3 + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+    </script>
 </body>
 </html>
